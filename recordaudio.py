@@ -1,10 +1,17 @@
-def recordaudio():   
+def recordaudio():  
+    import datetime 
     import pyrebase
     import sounddevice
     from scipy.io.wavfile import write
+
+    security = input("enter the security code")
+    name = datetime.datetime.now().strftime("%d-%m-%Y  %H:%M:%S")
+    name = '/'+ str(name)
+    cloudfilename=security+name
+
     #record audio
     fs = 44100
-    second = 5
+    second = 10
     print("recording")
     record_voice = sounddevice.rec(int(second * fs),samplerate=fs,channels = 2)
     sounddevice.wait()
@@ -26,9 +33,6 @@ def recordaudio():
 
     storage=firebase.storage()
     file="output.wav"
-    security = input("enter the security code")
-    name = "/audio.wav"
-    cloudfilename=security+name
     storage.child(cloudfilename).put(file)
 
 recordaudio()
